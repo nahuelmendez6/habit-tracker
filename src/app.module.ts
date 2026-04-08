@@ -10,7 +10,7 @@ import { join } from 'path';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: join(__dirname, '..', 'data', 'database.sqlite'),
-      entities: [__dirname + '/**/*.entity{.ts,.js'],
+      entities: [__dirname + '/**/entities/*.entity{.ts,.js}'],
       synchronize: true,
     })
   ],
