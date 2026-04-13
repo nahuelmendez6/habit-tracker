@@ -8,11 +8,16 @@ import { join } from 'path';
 import { UserModule } from './users/users.module'; 
 
 import { ConfigModule } from '@nestjs/config';
+import Joi from 'joi';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      validationSchema: Joi.object({
+        JWT_SECRET: Joi.string().required(),
+        JWT_EXPIRES_IN: Joi.string().required()
+      })
     }),
     
     TypeOrmModule.forRoot({
