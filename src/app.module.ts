@@ -7,8 +7,14 @@ import { join } from 'path';
 
 import { UserModule } from './users/users.module'; 
 
+import { ConfigModule } from '@nestjs/config';
+
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: join(__dirname, '..', 'data', 'database.sqlite'),
