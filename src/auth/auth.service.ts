@@ -2,7 +2,7 @@
  * Our AuthService has the job of retreiving a user and verifying the password
  */
 
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { Injectable, UnauthorizedException, ConflictException } from "@nestjs/common";
 import { UserService } from "src/users/users.service";
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -41,6 +41,20 @@ export class AuthService {
 
         return {
             access_token: this.jwtService.sign(payload)
+        }
+    }
+
+    async register(dto: any) {
+        const existingUser = await this.userService.findByEmail(dto.email);
+
+        if (existingUser) throw new ConflictException('Email already in use');
+
+        const user = this.userService.create(dto);
+
+        return {
+            id: (await user).id,
+            email: (await user).email,
+            name: (await user).name
         }
     }
 }
